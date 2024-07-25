@@ -1,5 +1,12 @@
 import React from "react";
+import Dashboard from "./src/pages/Dashboard";
 
-const App = () => <div>App</div>;
+const App: React.FC = () => {
+  return (
+    <div>
+      <Dashboard />
+    </div>
+  );
+};
 
 export default App;
