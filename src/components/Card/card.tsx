@@ -2,20 +2,24 @@ import React from "react";
 import { Box, Image, Text, Flex } from "@chakra-ui/react";
 
 interface CardProps {
-  donePercentage: number;
   cardImage: string;
   time: string;
-  title: string;
+  contentCategory: string;
   description: string;
+  expertName: string;
+  expertCompany: string;
 }
 
 const Card: React.FC<CardProps> = ({
-  donePercentage,
   cardImage,
   time,
-  title,
+  contentCategory,
   description,
+  expertName,
+  expertCompany,
 }) => {
+  console.log(expertName);
+
   return (
     <Box
       width="244px" // Fixed width
@@ -25,10 +29,16 @@ const Card: React.FC<CardProps> = ({
       borderWidth="1px"
       borderRadius="md"
       boxShadow="lg"
+      bg="white"
     >
       {/* Image Section */}
       <Box position="relative" height="50%">
-        <Image src={cardImage} alt={title} boxSize="100%" objectFit="cover" />
+        <Image
+          src={cardImage}
+          alt={contentCategory}
+          boxSize="100%"
+          objectFit="cover"
+        />
         {/* Percentage Overlay */}
         <Flex
           position="absolute"
@@ -40,10 +50,7 @@ const Card: React.FC<CardProps> = ({
           justifyContent="center"
           bgColor="rgba(0, 0, 0, 0.6)"
         >
-          <Text
-            fontSize="sm"
-            fontWeight="bold"
-          >{`${donePercentage}% completed`}</Text>
+          <Text fontSize="sm" fontWeight="bold">{`30% completed`}</Text>
         </Flex>
         {/* Time Overlay */}
         <Flex
@@ -56,7 +63,7 @@ const Card: React.FC<CardProps> = ({
           justifyContent="center"
           bgColor="rgba(0, 0, 0, 0.6)"
         >
-          <Text fontSize="sm">{time}</Text>
+          <Text fontSize="sm">{parseInt(time)}m</Text>
         </Flex>
       </Box>
       {/* Content Section */}
@@ -66,12 +73,18 @@ const Card: React.FC<CardProps> = ({
         display="flex"
         flexDirection="column"
         justifyContent="center"
-        bg="gray.800" // Optional background color for better readability
+        bg="white"
       >
-        <Text fontSize="xl" fontWeight="bold" mb="2">
-          {title}
+        <Text textTransform={"uppercase"} mb="2">
+          {contentCategory}
         </Text>
-        <Text fontSize="md">{description}</Text>
+        <Text fontWeight="bold" textTransform={"capitalize"}>
+          {description}
+        </Text>
+        <Box>
+          <Text textTransform={"capitalize"}>{expertName}</Text>
+          <Text textTransform={"capitalize"}>{expertCompany}</Text>
+        </Box>
       </Box>
     </Box>
   );

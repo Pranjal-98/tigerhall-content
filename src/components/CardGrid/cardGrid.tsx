@@ -1,60 +1,34 @@
-import React from "react";
+import React, { Fragment, useState } from "react";
 import { Box, Text, Grid } from "@chakra-ui/react";
 import Card from "../Card/card";
+import { query } from "../../queries/contentCards";
+import { ContentCard } from "../../pages/types";
 
 const CardGrid: React.FC = () => {
-  // Dummy data for cards
-  const cards = [
-    {
-      title: "Card 1",
-      description: "Description 1",
-      cardImage: "/path/to/image1.jpg",
-      donePercentage: 30,
-      time: "20mins",
-    },
-    {
-      title: "Card 2",
-      description: "Description 2",
-      cardImage: "/path/to/image2.jpg",
-      donePercentage: 30,
-      time: "20mins",
-    },
-    {
-      title: "Card 1",
-      description: "Description 1",
-      cardImage: "/path/to/image1.jpg",
-      donePercentage: 30,
-      time: "20mins",
-    },
-    {
-      title: "Card 1",
-      description: "Description 1",
-      cardImage: "/path/to/image1.jpg",
-      donePercentage: 30,
-      time: "20mins",
-    },
-    {
-      title: "Card 1",
-      description: "Description 1",
-      cardImage: "/path/to/image1.jpg",
-      donePercentage: 30,
-      time: "20mins",
-    },
-    {
-      title: "Card 1",
-      description: "Description 1",
-      cardImage: "/path/to/image1.jpg",
-      donePercentage: 30,
-      time: "20mins",
-    },
-    {
-      title: "Card 1",
-      description: "Description 1",
-      cardImage: "/path/to/image1.jpg",
-      donePercentage: 30,
-      time: "20mins",
-    },
-  ];
+  const [contentCards, setContentCards] = useState<null | ContentCard[]>(null);
+  const fetchContentCards = async (filter: any) => {
+    const response: any = await fetch("https://api.tigerhall.net/v2/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query,
+        variables: {
+          filter,
+        },
+      }),
+    });
+    const res = await response.json();
+    setContentCards(res.data?.contentCards?.edges);
+  };
+
+  React.useEffect(() => {
+    void fetchContentCards({
+      limit: 20,
+      types: "PODCAST",
+    });
+  }, []);
 
   return (
     <Box bg="gray.900" px={10} py={8}>
@@ -69,16 +43,27 @@ const CardGrid: React.FC = () => {
         }}
         gap={6} // Sets the gap between grid items
       >
-        {cards.map((card, index) => (
-          <Card
-            key={index}
-            title={card.title}
-            description={card.description}
-            cardImage={card.cardImage}
-            donePercentage={card.donePercentage}
-            time={card.time}
-          />
-        ))}
+        {contentCards &&
+          contentCards?.map((card: ContentCard, index: number) => {
+            const { categories, experts, name, image, length } = card;
+            const category = categories[0]?.name.split("category ")[1];
+            const expert = experts[0];
+            const company =
+              expert.company === "" ? "No Company" : expert.company;
+            return (
+              <Fragment key={card.id}>
+                <Card
+                  key={index}
+                  contentCategory={category}
+                  description={name}
+                  cardImage={image.uri}
+                  time={`${length / 60}`}
+                  expertName={expert.firstName + " " + expert.lastName}
+                  expertCompany={company}
+                />
+              </Fragment>
+            );
+          })}
       </Grid>
     </Box>
   );
