@@ -1,69 +1,119 @@
-import React, { Fragment, useState } from "react";
-import { Box, Text, Grid } from "@chakra-ui/react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import {
+  Box,
+  Text,
+  Grid,
+  GridItem,
+  Skeleton,
+  SkeletonText,
+} from "@chakra-ui/react";
 import Card from "../Card/card";
-import { query } from "../../queries/contentCards";
 import { ContentCard } from "../../pages/types";
+import { debounce } from "lodash";
 
-const CardGrid: React.FC = () => {
-  const [contentCards, setContentCards] = useState<null | ContentCard[]>(null);
-  const fetchContentCards = async (filter: any) => {
-    const response: any = await fetch("https://api.tigerhall.net/v2/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query,
-        variables: {
-          filter,
-        },
-      }),
-    });
-    const res = await response.json();
-    setContentCards(res.data?.contentCards?.edges);
+interface CardGridProps {
+  searchQuery: string;
+  isFetching: boolean;
+  contentCards: ContentCard[];
+  setContentCards: Function;
+  fetchContentCards: Function;
+}
+
+const CardGrid = ({
+  searchQuery,
+  isFetching,
+  contentCards,
+  setContentCards,
+  fetchContentCards,
+}: CardGridProps): JSX.Element => {
+  const debouncedFetchContentCards = useCallback(
+    debounce(() => {
+      fetchContentCards();
+    }, 500),
+    [fetchContentCards]
+  );
+
+  useEffect(() => {
+    setContentCards([]);
+    if (searchQuery === "") {
+      fetchContentCards();
+    } else {
+      debouncedFetchContentCards();
+    }
+    return () => {
+      debouncedFetchContentCards.cancel();
+    };
+  }, [searchQuery]);
+
+  const resizeImageUrl = (
+    url: string,
+    width: number,
+    height: number
+  ): string => {
+    const urlObj = new URL(url);
+    return `${urlObj.origin}/resize/${width}x${height}${urlObj.pathname}`;
   };
 
-  React.useEffect(() => {
-    void fetchContentCards({
-      limit: 20,
-      types: "PODCAST",
-    });
-  }, []);
+  const renderSkeletonCards = () => {
+    return Array.from({ length: 10 }).map((_, index) => (
+      <GridItem key={index} minW="220px">
+        <Skeleton height="200px" />
+        <SkeletonText mt="4" noOfLines={4} spacing="4" />
+      </GridItem>
+    ));
+  };
 
   return (
-    <Box bg="gray.900" px={10} py={8}>
+    <Box bg="gray.800" px={16} py={8}>
       <Text fontSize="montrealHeader2XL" color="gray.100" mb={6}>
         Tigerhall Library
       </Text>
       <Grid
         templateColumns={{
-          base: "1fr",
-          md: "repeat(2, 1fr)",
-          lg: "repeat(5, 1fr)",
+          base: "repeat(auto-fill, minmax(220px, 1fr))",
+          sm: "repeat(auto-fill, minmax(220px, 1fr))",
+          md: "repeat(auto-fill, minmax(220px, 1fr))",
+          lg: "repeat(auto-fill, minmax(220px, 1fr))",
         }}
-        gap={6} // Sets the gap between grid items
+        gap={10}
       >
-        {contentCards &&
-          contentCards?.map((card: ContentCard, index: number) => {
-            const { categories, experts, name, image, length } = card;
-            const category = categories[0]?.name.split("category ")[1];
-            const expert = experts[0];
-            const company =
-              expert.company === "" ? "No Company" : expert.company;
-            return (
-              <Fragment key={card.id}>
-                <Card
-                  key={index}
-                  contentCategory={category}
-                  description={name}
-                  cardImage={image.uri}
-                  time={`${length / 60}`}
-                  expertName={expert.firstName + " " + expert.lastName}
-                  expertCompany={company}
-                />
-              </Fragment>
-            );
-          })}
+        {isFetching
+          ? renderSkeletonCards()
+          : contentCards.map((card: ContentCard, index: number) => {
+              const { categories, experts, name, image, length } = card;
+              const category = categories[0]?.name.split("category ")[1];
+              const expert = experts[0];
+              const company =
+                expert.company === "" ? "No Company" : expert.company;
+              const resizedImage = resizeImageUrl(image.uri, 244, 120);
+              if (index === contentCards.length - 1) {
+                return (
+                  <GridItem key={card.id} minW="220px">
+                    <Card
+                      contentCategory={category}
+                      description={name}
+                      cardImage={resizedImage}
+                      time={`${length / 60}`}
+                      expertName={expert.firstName + " " + expert.lastName}
+                      expertCompany={company}
+                    />
+                  </GridItem>
+                );
+              } else {
+                return (
+                  <GridItem key={card.id} minW="220px">
+                    <Card
+                      contentCategory={category}
+                      description={name}
+                      cardImage={resizedImage}
+                      time={`${length / 60}`}
+                      expertName={expert.firstName + " " + expert.lastName}
+                      expertCompany={company}
+                    />
+                  </GridItem>
+                );
+              }
+            })}
       </Grid>
     </Box>
   );

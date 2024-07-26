@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Input,
   InputGroup,
@@ -7,31 +7,46 @@ import {
   HStack,
   Center,
 } from "@chakra-ui/react";
-import { useTheme } from "@chakra-ui/react";
 import "./index.css";
 import SearchIcon from "../../assets/SearchIcon";
 import Logo from "../../assets/Logo";
 
-const Navbar = () => {
-  const theme = useTheme();
+interface NavbarProps {
+  searchQuery: string;
+  setSearchQuery: Function;
+}
+
+const Navbar = ({ searchQuery, setSearchQuery }: NavbarProps): JSX.Element => {
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
+
   return (
     <HStack
       px={5}
       bg="gray.900"
       justifyContent={"space-between"}
-      border={`1px solid ${"gray.500"}`}
+      borderBottomWidth={1}
+      borderColor="gray.700"
     >
       <Box w="25%">
         <Logo />
       </Box>
       <Box w="50%">
-        <InputGroup w="100%">
+        <InputGroup w="100%" bg="gray.900" borderColor="gray.700">
           <InputLeftElement>
             <Center color="white">
               <SearchIcon />
             </Center>
           </InputLeftElement>
-          <Input placeholder="Search..." variant="outline" />
+          <Input
+            color={"white"}
+            fontSize={"montrealHeaderSM"}
+            placeholder="Search..."
+            variant="outline"
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
         </InputGroup>
       </Box>
       <Box w="25%"></Box>

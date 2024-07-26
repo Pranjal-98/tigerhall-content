@@ -1,5 +1,9 @@
 import React from "react";
-import { Box, Image, Text, Flex } from "@chakra-ui/react";
+import { Box, Image, Text, Flex, HStack } from "@chakra-ui/react";
+import ContentStatus from "../../assets/ContentStatus";
+import Time from "../../assets/Time";
+import Share from "../../assets/Share";
+import Bookmark from "../../assets/Bookmark";
 
 interface CardProps {
   cardImage: string;
@@ -18,18 +22,17 @@ const Card: React.FC<CardProps> = ({
   expertName,
   expertCompany,
 }) => {
-  console.log(expertName);
-
   return (
     <Box
-      width="244px" // Fixed width
-      height="272px" // Fixed height
+      width="244px"
+      height="272px"
       position="relative"
       overflow="hidden"
       borderWidth="1px"
-      borderRadius="md"
+      borderRadius="lg"
       boxShadow="lg"
       bg="white"
+      borderColor={"black"}
     >
       {/* Image Section */}
       <Box position="relative" height="50%">
@@ -40,52 +43,81 @@ const Card: React.FC<CardProps> = ({
           objectFit="cover"
         />
         {/* Percentage Overlay */}
+        <Box w={"100%"} h={"2px"} bg="gray.400">
+          <Box w={"30%"} h={"2px"} bg="main.tigerOrange"></Box>
+        </Box>
         <Flex
           position="absolute"
           top="0"
           left="0"
           p="2"
-          color="white"
+          fontSize={"montrealHeaderXS"}
+          color="gray.900"
           alignItems="center"
           justifyContent="center"
-          bgColor="rgba(0, 0, 0, 0.6)"
+          bgColor="orange.50"
+          borderTopLeftRadius="lg"
+          borderBottomRightRadius="lg"
         >
-          <Text fontSize="sm" fontWeight="bold">{`30% completed`}</Text>
+          <ContentStatus />
+          <Text ml={1} fontSize="sm" fontWeight="bold">{`30% Completed`}</Text>
         </Flex>
+
         {/* Time Overlay */}
-        <Flex
+        <HStack
           position="absolute"
-          bottom="0"
-          right="0"
-          p="2"
+          bottom={2}
+          right={1}
+          px="2"
+          py={1}
           color="white"
           alignItems="center"
           justifyContent="center"
           bgColor="rgba(0, 0, 0, 0.6)"
+          borderRadius={"2xl"}
+          spacing={2}
         >
-          <Text fontSize="sm">{parseInt(time)}m</Text>
-        </Flex>
+          <Time />
+          <Text fontWeight={"bold"} fontSize="montrealHeaderXS">
+            {parseInt(time)}m
+          </Text>
+        </HStack>
       </Box>
       {/* Content Section */}
-      <Box
-        p="4"
-        height="50%" // Takes the bottom half of the card
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        bg="white"
-      >
-        <Text textTransform={"uppercase"} mb="2">
+      <Box p="2" height="40%" display="flex" flexDirection="column" bg="white">
+        <Text
+          fontSize={"montrealHeaderXS"}
+          textTransform={"uppercase"}
+          color={"gray.700"}
+          fontWeight={"fontWeights.medium"}
+        >
           {contentCategory}
         </Text>
         <Text fontWeight="bold" textTransform={"capitalize"}>
           {description}
         </Text>
         <Box>
-          <Text textTransform={"capitalize"}>{expertName}</Text>
-          <Text textTransform={"capitalize"}>{expertCompany}</Text>
+          <Text
+            textTransform={"capitalize"}
+            color={"gray.600"}
+            fontSize={"montrealHeaderXS"}
+          >
+            {expertName}
+          </Text>
+          <Text
+            textTransform={"capitalize"}
+            color={"gray.700"}
+            fontSize={"montrealHeaderXS"}
+            fontWeight={"bold"}
+          >
+            {expertCompany}
+          </Text>
         </Box>
       </Box>
+      <HStack position="absolute" bottom={3} right={2}>
+        <Share />
+        <Bookmark />
+      </HStack>
     </Box>
   );
 };
