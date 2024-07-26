@@ -18,6 +18,15 @@ const theme = extendTheme({
     error: {
       red: '#5E0505',
     },
+    gray: {
+      700: '#797670', 
+      800: '#383733',
+      500: '#2A2C2E',
+      900: '#070708',
+      100: '#F4F3F0'
+
+    },
+
     // Add other color categories if needed
   },
 
@@ -222,6 +231,11 @@ const theme = extendTheme({
       fontFamily: 'body',
       fontWeight: 'normal',
       fontSize: 'bodyXS',
+    },
+    smBodyMedium: {
+      fontFamily: 'body',
+      fontWeight: 500,
+      fontSize: '14px',
     },
   },
 

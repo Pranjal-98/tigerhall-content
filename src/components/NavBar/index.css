@@ -1,0 +1,44 @@
+.navbar {
+    height: 8.5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    color: white;
+  }
+  
+  .logo-container {
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 1rem;
+  }
+  
+  .search-container {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .search-group {
+    max-width: 600px;
+    width: 100%;
+    background-color: #383733; /* gray900 */
+    border-color: #797670; 
+  }
+  
+  .search-icon {
+    color: white /* gray700 */
+  }
+  
+  .search-input {
+    background-color: #383733; /* gray900 */
+    border-color: #797670; /* gray700 */
+  }
+  
+  .search-input::placeholder {
+    color: #797670; /* gray700 */
+  }
+  

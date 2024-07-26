@@ -1,10 +1,13 @@
 import React from "react";
 import "./index.css";
+import NavBar from "../components/NavBar/navBar";
+import CardGrid from "../components/CardGrid/cardGrid";
 
 const Dashboard: React.FC = () => {
   return (
     <div>
-      <h1>Dashboard</h1>
+      <NavBar />
+      <CardGrid />
     </div>
   );
 };
