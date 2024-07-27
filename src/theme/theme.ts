@@ -10,7 +10,6 @@ const theme = extendTheme({
       soSunny: '#F78104',
       kindaYellow: '#FAAB36',
       teal: '#005F60',
-      // Add more colors as needed
     },
     success: {
       green: '#04B100',
@@ -18,16 +17,29 @@ const theme = extendTheme({
     error: {
       red: '#5E0505',
     },
-    // Add other color categories if needed
+    gray: {
+      900: '#070708',
+      800: "#0E0F0F",
+      700: '#797670', 
+      600:'#4D4B46',
+      500: '#2A2C2E',
+      400: '#DEDBD4',
+      200: '#383734',
+      100: '#F4F3F0',
+    },
+    orange:{
+      50: '#FFF9F6'
+
+    }
   },
 
   fonts: {
     formula: 'PP Neue Montreal, sans-serif',
     montreal: 'PP Neue Montreal, sans-serif',
-    body: 'PP Neue Montreal, sans-serif', // Default for body text
+    body: 'PP Neue Montreal, sans-serif',
   },
   fontSizes: {
-    // Define custom font sizes for different header types and body
+    // Defining custom font sizes for different header types and body
     formulaHeader10XL: '108px',
     formulaHeader9XL: '80px',
     formulaHeader8XL: '64px',
@@ -65,168 +77,10 @@ const theme = extendTheme({
     extrabold: 800,
     bold: 700,
     semibold: 600,
+    medium:500,
     normal: 400,
     light: 300,
-  },
-
-  textStyles: {
-    formulaHeader10XL: {
-      fontFamily: 'formula',
-      fontWeight: 'extrabold',
-      fontSize: 'formulaHeader10XL',
-    },
-    formulaHeader9XL: {
-      fontFamily: 'formula',
-      fontWeight: 'extrabold',
-      fontSize: 'formulaHeader9XL',
-    },
-    formulaHeader8XL: {
-      fontFamily: 'formula',
-      fontWeight: 'extrabold',
-      fontSize: 'formulaHeader8XL',
-    },
-    formulaHeader7XL: {
-      fontFamily: 'formula',
-      fontWeight: 'extrabold',
-      fontSize: 'formulaHeader7XL',
-    },
-    formulaHeader6XL: {
-      fontFamily: 'formula',
-      fontWeight: 'extrabold',
-      fontSize: 'formulaHeader6XL',
-    },
-    formulaHeader5XL: {
-      fontFamily: 'formula',
-      fontWeight: 'extrabold',
-      fontSize: 'formulaHeader5XL',
-    },
-    formulaHeader4XL: {
-        fontFamily: 'formula',
-        fontWeight: 'extrabold',
-        fontSize: 'formulaHeader4XL',
-      },
-    formulaHeader3XL: {
-        fontFamily: 'formula',
-        fontWeight: 'extrabold',
-        fontSize: 'formulaHeader3XL',
-    },
-    formulaHeader2XL: {
-        fontFamily: 'formula',
-        fontWeight: 'extrabold',
-        fontSize: 'formulaHeader2XL',
-    },
-    formulaHeaderXL: {
-        fontFamily: 'formula',
-        fontWeight: 'extrabold',
-        fontSize: 'formulaHeaderXL',
-    },
-    formulaHeaderLG: {
-        fontFamily: 'formula',
-        fontWeight: 'extrabold',
-        fontSize: 'formulaHeaderLG',
-    },
-    formulaHeaderMD: {
-        fontFamily: 'formula',
-        fontWeight: 'extrabold',
-        fontSize: 'formulaHeaderMD',
-    },
-    formulaHeaderSM: {
-        fontFamily: 'formula',
-        fontWeight: 'extrabold',
-        fontSize: 'formulaHeaderSM',
-    },
-    formulaHeaderXS: {
-        fontFamily: 'formula',
-        fontWeight: 'extrabold',
-        fontSize: 'formulaHeaderXS',
-    },
-    formulaHeader2XS: {
-        fontFamily: 'formula',
-        fontWeight: 'extrabold',
-        fontSize: 'formulaHeader2XS',
-    },
-    // montreal - bold
-    montrealHeader6XL: {
-      fontFamily: 'montreal',
-      fontWeight: 'bold',
-      fontSize: 'montrealHeader6XL',
-    },
-    montrealHeader5XL: {
-    fontFamily: 'montreal',
-    fontWeight: 'bold',
-    fontSize: 'montrealHeader5XL',
-    },
-    montrealHeader4XL: {
-    fontFamily: 'montreal',
-    fontWeight: 'bold',
-    fontSize: 'montrealHeader4XL',
-    },
-    montrealHeader3XL: {
-    fontFamily: 'montreal',
-    fontWeight: 'bold',
-    fontSize: 'montrealHeader3XL',
-    },
-    montrealHeader2XL: {
-    fontFamily: 'montreal',
-    fontWeight: 'bold',
-    fontSize: 'montrealHeader2XL',
-    },
-      montrealHeaderXL: {
-        fontFamily: 'montreal',
-        fontWeight: 'bold',
-        fontSize: 'montrealHeaderXL',
-      },
-    montrealHeaderLG: {
-      fontFamily: 'montreal',
-      fontWeight: 'bold',
-      fontSize: 'montrealHeaderLG',
-    },
-    montrealHeaderMD: {
-      fontFamily: 'montreal',
-      fontWeight: 'bold',
-      fontSize: 'montrealHeaderMD',
-    },
-    montrealHeaderSM: {
-      fontFamily: 'montreal',
-      fontWeight: 'bold',
-      fontSize: 'montrealHeaderSM',
-    },
-    montrealHeaderXS: {
-        fontFamily: 'montreal',
-        fontWeight: 'bold',
-        fontSize: 'montrealHeaderXS',
-      },
-    montrealHeader2XS: {
-    fontFamily: 'montreal',
-    fontWeight: 'bold',
-    fontSize: 'montrealHeader2XS',
-    },
-
-      //others
-    bodyL: {
-      fontFamily: 'body',
-      fontWeight: 'normal',
-      fontSize: 'bodyL',
-    },
-    bodyM: {
-      fontFamily: 'body',
-      fontWeight: 'normal',
-      fontSize: 'bodyM',
-    },
-    bodyS: {
-      fontFamily: 'body',
-      fontWeight: 'normal',
-      fontSize: 'bodyS',
-    },
-    bodyXS: {
-      fontFamily: 'body',
-      fontWeight: 'normal',
-      fontSize: 'bodyXS',
-    },
-  },
-
-
-  // You can extend other parts of Chakra UI's theme here
+  }
 });
 
 export default theme;

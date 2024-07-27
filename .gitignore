@@ -2,14 +2,13 @@
 
 # dependencies
 /node_modules
-/dist
 /.parcel-cache
+/dist 
 /.pnp
 .pnp.js
 
 # testing
 /coverage
-dist/
 .parcel-cache/
 # production
 /build

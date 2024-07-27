@@ -1,10 +1,9 @@
-// jest.config.js
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "jest-environment-jsdom",
   setupFilesAfterEnv: ["<rootDir>/setupTests.js"],
   transform: {
-    "^.+\\.(ts|tsx|js|jsx)$": "babel-jest", // Make sure babel-jest is used for transforming
+    "^.+\\.(ts|tsx|js|jsx)$": "babel-jest",
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
   testMatch: [
