@@ -22,56 +22,54 @@ const Dashboard: React.FC = (): JSX.Element => {
 
   // Function to fetch content cards based on search query
   const fetchContentCards = async (reset: boolean = false) => {
-    if (offset <= 10) {
-      try {
-        // Set fetching status to true
-        setIsFetching(true);
+    try {
+      // Set fetching status to true
+      setIsFetching(true);
 
-        // Perform the fetch request
-        const response = await fetch("https://api.tigerhall.net/v2/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            query,
-            variables: {
-              filter: {
-                limit: 10,
-                types: "PODCAST",
-                keywords: searchQuery,
-                offset: reset ? 0 : offset,
-              },
+      // Perform the fetch request
+      const response = await fetch("https://api.tigerhall.net/v2/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query,
+          variables: {
+            filter: {
+              limit: 10,
+              types: "PODCAST",
+              keywords: searchQuery,
+              offset: reset ? 0 : offset,
             },
-          }),
-        });
+          },
+        }),
+      });
 
-        // Parse the JSON response
-        const res = await response.json();
+      // Parse the JSON response
+      const res = await response.json();
 
-        // Extract content cards from the response
-        const cards = res.data?.contentCards?.edges || [];
+      // Extract content cards from the response
+      const cards = res.data?.contentCards?.edges || [];
 
-        // Update state with fetched content cards
-        setContentCards((prevCards: any) => {
-          // Combine previous cards and new cards
-          const combinedCards = reset ? cards : [...prevCards, ...cards];
+      // Update state with fetched content cards
+      setContentCards((prevCards: any) => {
+        // Combine previous cards and new cards
+        const combinedCards = reset ? cards : [...prevCards, ...cards];
 
-          const uniqueCards = Array.from(
-            new Set(combinedCards.map((card: any) => JSON.stringify(card)))
-          ).map((card: any) => JSON.parse(card));
+        const uniqueCards = Array.from(
+          new Set(combinedCards.map((card: any) => JSON.stringify(card)))
+        ).map((card: any) => JSON.parse(card));
 
-          return uniqueCards;
-        });
-        setOffset((prevOffset) => (reset ? 10 : prevOffset + 10));
+        return uniqueCards;
+      });
+      setOffset((prevOffset) => (reset ? 10 : prevOffset + 10));
 
-        setHasMore(cards.length > 0);
-      } catch (error) {
-        console.error("Error fetching content cards:", error);
-      } finally {
-        // Set fetching status to false after request completes
-        setIsFetching(false);
-      }
+      setHasMore(cards.length > 0);
+    } catch (error) {
+      console.error("Error fetching content cards:", error);
+    } finally {
+      // Set fetching status to false after request completes
+      setIsFetching(false);
     }
   };
 
