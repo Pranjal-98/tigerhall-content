@@ -4,6 +4,7 @@ import ContentStatus from "../../assets/ContentStatus";
 import Time from "../../assets/Time";
 import Share from "../../assets/Share";
 import Bookmark from "../../assets/Bookmark";
+import Headphone from "../../assets/Headphone";
 
 interface CardProps {
   cardImage: string;
@@ -32,7 +33,7 @@ const Card: React.FC<CardProps> = ({
       borderRadius="lg"
       boxShadow="lg"
       bg="white"
-      borderColor={"black"}
+      borderColor="black"
     >
       {/* Image Section */}
       <Box position="relative" height="50%">
@@ -42,16 +43,26 @@ const Card: React.FC<CardProps> = ({
           boxSize="100%"
           objectFit="cover"
         />
-        {/* Percentage Overlay */}
-        <Box w={"100%"} h={"2px"} bg="gray.400">
-          <Box w={"30%"} h={"2px"} bg="main.tigerOrange"></Box>
+
+        {/* Completion Percentage Overlay */}
+        <Box
+          position="absolute"
+          top="0"
+          left="0"
+          w="100%"
+          h="2px"
+          bg="gray.400"
+        >
+          <Box w="30%" h="2px" bg="main.tigerOrange" />
         </Box>
+
+        {/* Status Badge */}
         <Flex
           position="absolute"
           top="0"
           left="0"
           p="2"
-          fontSize={"montrealHeaderXS"}
+          fontSize="montrealHeaderXS"
           color="gray.900"
           alignItems="center"
           justifyContent="center"
@@ -60,8 +71,15 @@ const Card: React.FC<CardProps> = ({
           borderBottomRightRadius="lg"
         >
           <ContentStatus />
-          <Text ml={1} fontSize="sm" fontWeight="bold">{`30% Completed`}</Text>
+          <Text ml={1} fontSize="sm" fontWeight="bold">
+            {`30% Completed`}
+          </Text>
         </Flex>
+
+        {/* Headphone Icon */}
+        <HStack position="absolute" bottom={2} left={1}>
+          <Headphone />
+        </HStack>
 
         {/* Time Overlay */}
         <HStack
@@ -74,46 +92,49 @@ const Card: React.FC<CardProps> = ({
           alignItems="center"
           justifyContent="center"
           bgColor="rgba(0, 0, 0, 0.6)"
-          borderRadius={"2xl"}
+          borderRadius="2xl"
           spacing={2}
         >
           <Time />
-          <Text fontWeight={"bold"} fontSize="montrealHeaderXS">
+          <Text fontWeight="bold" fontSize="montrealHeaderXS">
             {parseInt(time)}m
           </Text>
         </HStack>
       </Box>
+
       {/* Content Section */}
       <Box p="2" height="40%" display="flex" flexDirection="column" bg="white">
         <Text
-          fontSize={"montrealHeaderXS"}
-          textTransform={"uppercase"}
-          color={"gray.700"}
-          fontWeight={"fontWeights.medium"}
+          fontSize="montrealHeaderXS"
+          textTransform="uppercase"
+          color="gray.700"
+          fontWeight="medium"
         >
           {contentCategory}
         </Text>
-        <Text fontWeight="bold" textTransform={"capitalize"}>
+        <Text fontWeight="bold" textTransform="capitalize">
           {description}
         </Text>
         <Box>
           <Text
-            textTransform={"capitalize"}
-            color={"gray.600"}
-            fontSize={"montrealHeaderXS"}
+            textTransform="capitalize"
+            color="gray.600"
+            fontSize="montrealHeaderXS"
           >
             {expertName}
           </Text>
           <Text
-            textTransform={"capitalize"}
-            color={"gray.700"}
-            fontSize={"montrealHeaderXS"}
-            fontWeight={"bold"}
+            textTransform="capitalize"
+            color="gray.700"
+            fontSize="montrealHeaderXS"
+            fontWeight="bold"
           >
             {expertCompany}
           </Text>
         </Box>
       </Box>
+
+      {/* Action Icons */}
       <HStack position="absolute" bottom={3} right={2}>
         <Share />
         <Bookmark />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Input,
   InputGroup,
@@ -6,50 +6,65 @@ import {
   Box,
   HStack,
   Center,
+  useBreakpointValue,
 } from "@chakra-ui/react";
-import "./index.css";
 import SearchIcon from "../../assets/SearchIcon";
 import Logo from "../../assets/Logo";
+import SmallLogo from "../../assets/SmallLogo";
 
 interface NavbarProps {
   searchQuery: string;
-  setSearchQuery: Function;
+  setSearchQuery: (query: string) => void;
 }
 
-const Navbar = ({ searchQuery, setSearchQuery }: NavbarProps): JSX.Element => {
+const Navbar: React.FC<NavbarProps> = ({ searchQuery, setSearchQuery }) => {
+  // Handler for updating search query state
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
+
+  // Responsive logo based on screen size
+  const logo = useBreakpointValue({
+    base: <SmallLogo />, // Logo for small screens
+    md: <Logo />, // Logo for medium screens and up
+  });
 
   return (
     <HStack
       px={5}
       bg="gray.900"
-      justifyContent={"space-between"}
+      justifyContent="space-between"
       borderBottomWidth={1}
       borderColor="gray.700"
     >
-      <Box w="25%">
-        <Logo />
+      {/* Logo section */}
+      <Box data-testid="logo" w={{ base: "15%", md: "25%" }}>
+        {logo}
       </Box>
-      <Box w="50%">
+
+      {/* Search bar section */}
+      <Box w={{ base: "70%", md: "50%" }}>
         <InputGroup w="100%" bg="gray.900" borderColor="gray.700">
           <InputLeftElement>
             <Center color="white">
-              <SearchIcon />
+              <SearchIcon data-testid="search-icon" />
             </Center>
           </InputLeftElement>
           <Input
-            color={"white"}
-            fontSize={"montrealHeaderSM"}
+            color="white"
+            fontSize="montrealHeaderSM"
             placeholder="Search..."
+            bg="gray.200"
             variant="outline"
             value={searchQuery}
             onChange={handleSearchChange}
+            _placeholder={{ color: "gray.700" }}
           />
         </InputGroup>
       </Box>
-      <Box w="25%"></Box>
+
+      {/* Placeholder for alignment */}
+      <Box w={{ base: "15%", md: "25%" }} />
     </HStack>
   );
 };
