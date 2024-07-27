@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, Suspense } from "react";
 import {
   Box,
   Text,
@@ -8,9 +8,9 @@ import {
   SkeletonText,
   Center,
 } from "@chakra-ui/react";
-import Card from "../Card/card";
 import { ContentCard } from "../../pages/types";
 import { debounce } from "lodash";
+import Card from "../Card/card";
 
 interface CardGridProps {
   searchQuery: string;
@@ -60,13 +60,16 @@ const CardGrid: React.FC<CardGridProps> = ({
   };
 
   // Render skeleton cards while data is being fetched
-  const renderSkeletonCards = () =>
-    Array.from({ length: 10 }).map((_, index) => (
-      <GridItem key={index} minW="220px">
-        <Skeleton height="200px" />
-        <SkeletonText mt="4" noOfLines={4} spacing="4" />
-      </GridItem>
-    ));
+  const renderSkeletonCards = useCallback(
+    () =>
+      Array.from({ length: 10 }).map((_, index) => (
+        <GridItem key={index} minW="220px">
+          <Skeleton height="200px" />
+          <SkeletonText mt="4" noOfLines={4} spacing="4" />
+        </GridItem>
+      )),
+    []
+  );
 
   // Scroll event handler to detect when bottom of page is reached
   const handleScroll = useCallback(() => {

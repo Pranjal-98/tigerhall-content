@@ -42,6 +42,7 @@ const Card: React.FC<CardProps> = ({
           alt={contentCategory}
           boxSize="100%"
           objectFit="cover"
+          loading="lazy"
         />
 
         {/* Completion Percentage Overlay */}
