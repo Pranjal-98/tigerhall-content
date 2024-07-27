@@ -16,30 +16,29 @@ interface CardGridProps {
   searchQuery: string;
   isFetching: boolean;
   contentCards: ContentCard[];
-  setContentCards: (cards: ContentCard[]) => void;
-  fetchContentCards: () => void;
+  fetchContentCards: (reset?: boolean) => void;
+  hasMore: boolean;
 }
 
 const CardGrid: React.FC<CardGridProps> = ({
   searchQuery,
   isFetching,
   contentCards,
-  setContentCards,
   fetchContentCards,
+  hasMore,
 }) => {
   // Debounced version of fetchContentCards
   const debouncedFetchContentCards = useCallback(
     debounce(() => {
-      fetchContentCards();
-    }, 500),
+      fetchContentCards(true);
+    }, 300),
     [fetchContentCards]
   );
 
   // Effect to fetch content cards based on search query
   useEffect(() => {
-    setContentCards([]);
     if (searchQuery === "") {
-      fetchContentCards();
+      fetchContentCards(true);
     } else {
       debouncedFetchContentCards();
     }
@@ -69,9 +68,26 @@ const CardGrid: React.FC<CardGridProps> = ({
       </GridItem>
     ));
 
+  // Scroll event handler to detect when bottom of page is reached
+  const handleScroll = useCallback(() => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+      document.documentElement.offsetHeight
+    )
+      return;
+    if (hasMore) {
+      fetchContentCards();
+    }
+  }, [fetchContentCards, hasMore]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
+
   // Render content cards or skeletons based on fetching status
   return (
-    <Box bg="gray.800" px={16} py={8}>
+    <Box bg="gray.800" px={16} py={8} minH={"100vh"}>
       <Text
         textAlign={{ base: "center", md: "left" }}
         fontSize="montrealHeader2XL"
@@ -83,7 +99,7 @@ const CardGrid: React.FC<CardGridProps> = ({
       <Grid templateColumns="repeat(auto-fill, minmax(220px, 1fr))" gap={10}>
         {isFetching
           ? renderSkeletonCards()
-          : contentCards.map((card: ContentCard) => {
+          : [...contentCards].map((card: ContentCard) => {
               const { categories, experts, name, image, length } = card;
               const category =
                 categories[0]?.name.split("category ")[1] || "Unknown Category";
